@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import isEmpty from 'lodash.isempty';
 
 import Calculator from '../../components/Calculator';
+import Result from '../../components/Result';
 import { getAllPokemons, loadingPokemon } from '../../services/pokemon';
 import { CalcutateTradeIsFair } from '../../helpers/calculate';
 
-import { Container, Header, DescriptionContainer, Button } from './styles';
+import { Container, Header, DescriptionContainer, Button, ResultContainer } from './styles';
 
 const PokeTrader = () => {
   const [pokemonsArray, setPokemonsArray] = useState([]);
@@ -18,7 +19,6 @@ const PokeTrader = () => {
 
   const handleCalculate = () => {
     const fair = CalcutateTradeIsFair(player1Slots, player2Slots);
-    console.log(fair);
     setIsFair(fair);
   };
 
@@ -35,16 +35,19 @@ const PokeTrader = () => {
 
   }, []);
 
+  useEffect(() => {
+    if(!isEmpty(player1Slots) && !isEmpty(player2Slots)){
+      handleCalculate();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player1Slots, player2Slots]);
+
   const renderResult = () => {
     if (isFair === true) {
-      return (
-        <h3>IS FAIR</h3>
-      )
+      return 'This trade is Fair';
     }
-    return (
-      <h3>IS NOT FAIR</h3>
-    )
-  }
+    return 'This trade is not Fair';
+  };
 
   console.log(pokemonsArray);
 
@@ -64,17 +67,20 @@ const PokeTrader = () => {
         setPlayer1Slots={setPlayer1Slots}
         setPlayer2Slots={setPlayer2Slots}
       />
+      {isFair !== undefined ? (
+        <ResultContainer isFair={isFair}>
+          <h3>{renderResult()}</h3>
+        </ResultContainer>
+      ) : (
+        <></>
+      )}
+      
       <Button 
         onClick={() => handleCalculate()}
         disabled={isEmpty(player1Slots) || isEmpty(player2Slots)}
       >
         Test Trade
       </Button>
-      {isFair !== undefined ? (
-        renderResult()
-      ) : (
-        <></>
-      )}
     </Container>
   );
 }

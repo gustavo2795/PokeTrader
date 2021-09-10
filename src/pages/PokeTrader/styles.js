@@ -35,12 +35,19 @@ export const DescriptionContainer = styled.div`
   align-self: center;
 `;
 
-export const Footer = styled.div`
+export const ResultContainer = styled.div`
   display: flex;
-  align-self: flex-end;
-  background: #275A9C;
-  width: 100%;
-  height: 50px;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  min-width: 300px;
+  height: 40px;
+  padding: 10px;
+  margin-top: 40px;
+  border-radius: 10px;
+  background: ${props => props.isFair ? '#4D8B8F' : '#BA4A49'};
+  color: #070808;
 `;
 
 export const Button = styled.button`
