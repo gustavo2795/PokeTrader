@@ -8,7 +8,7 @@ const PokeTrader = () => {
   return (
     <Container>
       <Header>
-        <h2>Poketrader</h2>
+        <h2>PokeTrader</h2>
       </Header>
       <DescriptionContainer>
         <p>Selects 1 or more Pókemon in both sides to check if the trade is fair.

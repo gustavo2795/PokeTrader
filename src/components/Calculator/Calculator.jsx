@@ -25,11 +25,27 @@ const Calculator = () => {
     setPlayer2Slots(transformed);
   };
 
+  const handleRemoveSlotPlayer1 = (index) => {
+    setPlayer1Slots(
+      player1Slots.filter((s, sindex) => index !== sindex)
+    );
+  };
+
+  const handleRemoveSlotPlayer2 = (index) => {
+    setPlayer2Slots(
+      player2Slots.filter((s, sindex) => index !== sindex)
+    );
+  };
+
   return (
     <Container>
       <PlayerContainer>
         {!isEmpty(player1Slots) && player1Slots.map((value, index) => (
-          <Slot key={index}/>
+          <Slot 
+            key={index}
+            index={index}
+            removeSlot={handleRemoveSlotPlayer1}
+          />
         ))}
         {player1Slots.length < 6 && (
           <Button onClick={() => addSlotPlayer1()}>
@@ -40,9 +56,13 @@ const Calculator = () => {
       <h3> {'->'} </h3>
       <PlayerContainer>
         {!isEmpty(player2Slots) && player2Slots.map((value, index) => (
-            <Slot key={index}/>
+            <Slot 
+              key={index}
+              index={index}
+              removeSlot={handleRemoveSlotPlayer2}
+            />
           ))}
-        {player1Slots.length < 6 && (
+        {player2Slots.length < 6 && (
           <Button onClick={() => addSlotPlayer2()}>
             Add Pókemon
           </Button>
