@@ -24,6 +24,7 @@ export const Header = styled.div`
 
 export const DescriptionContainer = styled.div`
   display: flex;
+  flex-direction: row;
   width: 400px;
   height: 60px;
   padding: 8px;
@@ -40,4 +41,17 @@ export const Footer = styled.div`
   background: #275A9C;
   width: 100%;
   height: 50px;
+`;
+
+export const Button = styled.button`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 36px;
+  background: #3378BC;
+  color: #fff;
+  border-radius: 15px;
+  margin-top: 20px;
 `;
