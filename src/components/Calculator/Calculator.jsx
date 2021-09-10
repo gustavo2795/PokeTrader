@@ -28,8 +28,8 @@ const Calculator = () => {
   return (
     <Container>
       <PlayerContainer>
-        {!isEmpty(player1Slots) && player1Slots.map((value) => (
-          <Slot key={value}/>
+        {!isEmpty(player1Slots) && player1Slots.map((value, index) => (
+          <Slot key={index}/>
         ))}
         {player1Slots.length < 6 && (
           <Button onClick={() => addSlotPlayer1()}>
@@ -39,8 +39,8 @@ const Calculator = () => {
       </PlayerContainer>
       <h3> {'->'} </h3>
       <PlayerContainer>
-        {!isEmpty(player2Slots) && player2Slots.map((value) => (
-            <Slot key={value}/>
+        {!isEmpty(player2Slots) && player2Slots.map((value, index) => (
+            <Slot key={index}/>
           ))}
         {player1Slots.length < 6 && (
           <Button onClick={() => addSlotPlayer2()}>
