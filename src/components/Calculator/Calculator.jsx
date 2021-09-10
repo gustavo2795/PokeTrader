@@ -1,29 +1,68 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash.isempty';
+import  { 
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+} from '@material-ui/core';
 
 import Slot from '../Slot';
+import Card from '../Card';
 
 import { Container, PlayerContainer, Button } from './styles';
 
-const Calculator = () => {
-  const [player1Slots, setPlayer1Slots] = useState([]);
-  const [player2Slots, setPlayer2Slots] = useState([]);
+const Calculator = (props) => {
+  const {
+    pokemons,
+    player1Slots,
+    player2Slots,
+    setPlayer1Slots,
+    setPlayer2Slots
+  } = props;
+  const [playerChoosing, setPlayerChoosing] = useState();
+  const [open, setOpen] = useState(false);
 
-  const addSlotPlayer1 = () => {
+  const handleClickOpen = (playerChoosing) => {
+    setOpen(true);
+    setPlayerChoosing(playerChoosing);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const addSlotPlayer1 = (pokemon) => {
     const transformed = [...player1Slots];
     transformed.push({
-      description: '',
+      name: pokemon.name,
+      img: pokemon.sprites.front_default,
+      baseXp: pokemon.base_experience
     });
     setPlayer1Slots(transformed);
+    setOpen(false);
   };
 
-  const addSlotPlayer2 = () => {
+  const addSlotPlayer2 = (pokemon) => {
     const transformed = [...player2Slots];
     transformed.push({
-      description: '',
+      name: pokemon.name,
+      img: pokemon.sprites.front_default,
+      baseXp: pokemon.base_experience
     });
     setPlayer2Slots(transformed);
+    setOpen(false);
   };
+
+  const handleSelection = (pokemonSelected) => {
+    if (playerChoosing === 1) {
+      addSlotPlayer1(pokemonSelected);
+    } else {
+      addSlotPlayer2(pokemonSelected);
+    }
+  }
 
   const handleRemoveSlotPlayer1 = (index) => {
     setPlayer1Slots(
@@ -44,11 +83,12 @@ const Calculator = () => {
           <Slot 
             key={index}
             index={index}
+            pokemon={value}
             removeSlot={handleRemoveSlotPlayer1}
           />
         ))}
         {player1Slots.length < 6 && (
-          <Button onClick={() => addSlotPlayer1()}>
+          <Button onClick={() => handleClickOpen(1)}>
             Add Pókemon
           </Button>
         )}
@@ -59,15 +99,42 @@ const Calculator = () => {
             <Slot 
               key={index}
               index={index}
+              pokemon={value}
               removeSlot={handleRemoveSlotPlayer2}
             />
           ))}
         {player2Slots.length < 6 && (
-          <Button onClick={() => addSlotPlayer2()}>
+          <Button onClick={() => handleClickOpen(2)}>
             Add Pókemon
           </Button>
         )}
       </PlayerContainer>
+      <Dialog
+        fullWidth
+        maxWidth={'lg'}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="max-width-dialog-title"
+      >
+        <DialogTitle id="max-width-dialog-title">Pokedéx</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Select one Pókemon
+          </DialogContentText>
+          <Grid container spacing={3}>
+            {pokemons.map((item, index) => (
+              <Grid item key={index} sm={4} onClick={() => handleSelection(item)}>
+                <Card pokemon={item} />
+              </Grid>
+            ))}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
