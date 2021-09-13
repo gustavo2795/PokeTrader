@@ -39,6 +39,8 @@ const PokeTrader = () => {
       isFair: isFair
     });
     setTradeHistory(transformedHistory);
+    setPlayer1Slots([]);
+    setPlayer2Slots([]);
   }
 
   const renderResult = () => {
