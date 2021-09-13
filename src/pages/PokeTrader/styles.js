@@ -5,7 +5,6 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  position: fixed;
   padding: 0;
   margin: 0;
   background: #C2D5E4;
@@ -35,12 +34,19 @@ export const DescriptionContainer = styled.div`
   align-self: center;
 `;
 
-export const Footer = styled.div`
+export const ResultContainer = styled.div`
   display: flex;
-  align-self: flex-end;
-  background: #275A9C;
-  width: 100%;
-  height: 50px;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  min-width: 300px;
+  height: 40px;
+  padding: 10px;
+  margin-top: 40px;
+  border-radius: 10px;
+  background: ${props => props.isFair ? '#4D8B8F' : '#BA4A49'};
+  color: #070808;
 `;
 
 export const Button = styled.button`
@@ -54,4 +60,12 @@ export const Button = styled.button`
   color: #fff;
   border-radius: 15px;
   margin-top: 20px;
+`;
+
+export const HistoryContainer = styled.div`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  min-width: 60%;
+  margin-Top: 40px;
 `;
