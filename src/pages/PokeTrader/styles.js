@@ -5,7 +5,6 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  position: fixed;
   padding: 0;
   margin: 0;
   background: #C2D5E4;
@@ -61,4 +60,12 @@ export const Button = styled.button`
   color: #fff;
   border-radius: 15px;
   margin-top: 20px;
+`;
+
+export const HistoryContainer = styled.div`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  min-width: 60%;
+  margin-Top: 40px;
 `;

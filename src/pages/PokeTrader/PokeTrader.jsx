@@ -2,25 +2,43 @@ import React, { useEffect, useState } from 'react';
 import isEmpty from 'lodash.isempty';
 
 import Calculator from '../../components/Calculator';
-import Result from '../../components/Result';
+import History from '../../components/History';
 import { getAllPokemons, loadingPokemon } from '../../services/pokemon';
 import { CalcutateTradeIsFair } from '../../helpers/calculate';
 
-import { Container, Header, DescriptionContainer, Button, ResultContainer } from './styles';
+import {
+  Container,
+  Header,
+  DescriptionContainer,
+  Button,
+  ResultContainer,
+  HistoryContainer
+} from './styles';
 
 const PokeTrader = () => {
   const [pokemonsArray, setPokemonsArray] = useState([]);
   const [player1Slots, setPlayer1Slots] = useState([]);
   const [player2Slots, setPlayer2Slots] = useState([]);
+  const [tradeHistory, setTradeHistory] = useState([]);
   const [isFair, setIsFair] = useState(undefined);
   const [nextUrl, setNextUrl] = useState('');
   const [prevUrl, setPrevUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const handleCalculate = () => {
+  const handleCalculateFair = () => {
     const fair = CalcutateTradeIsFair(player1Slots, player2Slots);
     setIsFair(fair);
   };
+
+  const handleTrade = () => {
+    const transformedHistory = [...tradeHistory];
+    transformedHistory.push({
+      player1: player1Slots,
+      player2: player2Slots,
+      isFair: isFair
+    });
+    setTradeHistory(transformedHistory);
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -37,7 +55,7 @@ const PokeTrader = () => {
 
   useEffect(() => {
     if(!isEmpty(player1Slots) && !isEmpty(player2Slots)){
-      handleCalculate();
+      handleCalculateFair();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player1Slots, player2Slots]);
@@ -76,11 +94,14 @@ const PokeTrader = () => {
       )}
       
       <Button 
-        onClick={() => handleCalculate()}
+        onClick={() => handleTrade()}
         disabled={isEmpty(player1Slots) || isEmpty(player2Slots)}
       >
-        Test Trade
+        Trade Pokémons
       </Button>
+      <HistoryContainer>
+        <History trades={tradeHistory} />
+      </HistoryContainer>
     </Container>
   );
 }

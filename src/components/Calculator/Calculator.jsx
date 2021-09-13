@@ -79,6 +79,7 @@ const Calculator = (props) => {
   return (
     <Container>
       <PlayerContainer>
+        <p>Player1</p>
         {!isEmpty(player1Slots) && player1Slots.map((value, index) => (
           <Slot 
             key={index}
@@ -95,6 +96,7 @@ const Calculator = (props) => {
       </PlayerContainer>
       <h3> {'->'} </h3>
       <PlayerContainer>
+        <p>Player2</p>
         {!isEmpty(player2Slots) && player2Slots.map((value, index) => (
             <Slot 
               key={index}
