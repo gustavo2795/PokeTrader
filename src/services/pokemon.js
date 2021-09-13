@@ -36,7 +36,6 @@ export async function loadingPokemon(data) {
 export async function searchPokemon(name) {
   return P.getPokemonByName(name)
     .then(function(response) {
-      console.log(response);
       return response;
     });
 };
