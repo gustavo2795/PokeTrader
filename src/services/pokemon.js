@@ -3,8 +3,8 @@ const Pokedex = require('pokedex-promise-v2');
 const P = new Pokedex();
 
 //Fetch all pokemons urls
-export async function getAllPokemons() {
-  const interval = {limit: 20, offset: 0}
+export async function getAllPokemons(offset) {
+  const interval = {limit: 20, offset: offset}
    return P.getPokemonsList(interval)
     .then(function(response) {
       return response;

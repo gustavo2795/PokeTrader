@@ -21,8 +21,7 @@ const PokeTrader = () => {
   const [player2Slots, setPlayer2Slots] = useState([]);
   const [tradeHistory, setTradeHistory] = useState([]);
   const [isFair, setIsFair] = useState(undefined);
-  const [nextUrl, setNextUrl] = useState('');
-  const [prevUrl, setPrevUrl] = useState('');
+  const [offset, setOffSet] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const handleCalculateFair = () => {
@@ -40,26 +39,6 @@ const PokeTrader = () => {
     setTradeHistory(transformedHistory);
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      let response = await getAllPokemons();
-      setNextUrl(response.next);
-      setPrevUrl(response.previous);
-      let pokemons = await loadingPokemon(response.results);
-      setLoading(false);
-      setPokemonsArray(pokemons);
-    };
-    fetchData();
-
-  }, []);
-
-  useEffect(() => {
-    if(!isEmpty(player1Slots) && !isEmpty(player2Slots)){
-      handleCalculateFair();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player1Slots, player2Slots]);
-
   const renderResult = () => {
     if (isFair === true) {
       return 'This trade is Fair';
@@ -67,7 +46,38 @@ const PokeTrader = () => {
     return 'This trade is not Fair';
   };
 
-  console.log(pokemonsArray);
+  const fetchData = async(offset) => {
+    let response = await getAllPokemons(offset);
+    let pokemons = await loadingPokemon(response.results);
+    setLoading(false);
+    setPokemonsArray(pokemons);
+  };
+
+  const next = async () => {
+    setOffSet(offset + 20);
+    setLoading(true);
+  };
+
+  const previous = async () => {
+    setOffSet(offset - 20);
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    fetchData(offset);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    fetchData(offset);
+  }, [offset])
+
+  useEffect(() => {
+    if(!isEmpty(player1Slots) && !isEmpty(player2Slots)){
+      handleCalculateFair();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player1Slots, player2Slots]);
 
   return (
     <Container>
@@ -84,6 +94,10 @@ const PokeTrader = () => {
         player2Slots={player2Slots}
         setPlayer1Slots={setPlayer1Slots}
         setPlayer2Slots={setPlayer2Slots}
+        next={next}
+        previous={previous}
+        offset={offset}
+        loading={loading}
       />
       {isFair !== undefined ? (
         <ResultContainer isFair={isFair}>

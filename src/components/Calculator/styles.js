@@ -36,3 +36,11 @@ export const Button = styled.button`
   border-radius: 15px;
   margin-top: 20px;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`

@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem';
 import { Container, Title, TradeTitle, Image } from './styles';
 
 const History = ({trades}) => {
-  console.log(trades);
   return (
     <Container>
       <Title>

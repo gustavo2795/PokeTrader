@@ -12,7 +12,7 @@ import  {
 import Slot from '../Slot';
 import Card from '../Card';
 
-import { Container, PlayerContainer, Button } from './styles';
+import { Container, PlayerContainer, Button, ButtonContainer } from './styles';
 
 const Calculator = (props) => {
   const {
@@ -20,7 +20,11 @@ const Calculator = (props) => {
     player1Slots,
     player2Slots,
     setPlayer1Slots,
-    setPlayer2Slots
+    setPlayer2Slots,
+    next,
+    previous,
+    offset,
+    loading
   } = props;
   const [playerChoosing, setPlayerChoosing] = useState();
   const [open, setOpen] = useState(false);
@@ -123,13 +127,25 @@ const Calculator = (props) => {
           <DialogContentText>
             Select one Pókemon
           </DialogContentText>
-          <Grid container spacing={3}>
-            {pokemons.map((item, index) => (
-              <Grid item key={index} sm={4} onClick={() => handleSelection(item)}>
-                <Card pokemon={item} />
-              </Grid>
-            ))}
-          </Grid>
+          <ButtonContainer>
+          <Button onClick={previous} disabled={offset === 0}>
+              Previous
+            </Button>
+            <Button onClick={next}>
+              Next
+            </Button>
+          </ButtonContainer>
+          {loading ? (
+            <h3>Loading</h3>
+          ) : (
+            <Grid container spacing={3}>
+              {pokemons.map((item, index) => (
+                <Grid item key={index} sm={4} onClick={() => handleSelection(item)}>
+                  <Card pokemon={item} />
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>

@@ -3,7 +3,6 @@ import React from 'react';
 import { Container, InfoContainer, ImageContainer, RemoveButton, Image } from './styles';
 
 const Slot = ({index, removeSlot, pokemon}) => {
-  console.log(pokemon);
   return (
     <Container>
       <InfoContainer>
