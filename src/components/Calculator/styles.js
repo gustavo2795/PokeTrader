@@ -24,6 +24,20 @@ export const PlayerContainer = styled.div`
   border-color: #275A9C;
 `;
 
+export const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const SearchInput = styled.input`
+  display: flex;
+  width: 300px;
+  height: 36px;
+  border-style: outset;
+  border-radius: 15px;
+`
+
 export const Button = styled.button`
   display: flex;
   align-self: center;

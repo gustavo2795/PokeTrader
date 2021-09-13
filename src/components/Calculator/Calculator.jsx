@@ -4,7 +4,6 @@ import  {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
 } from '@material-ui/core';
@@ -12,7 +11,14 @@ import  {
 import Slot from '../Slot';
 import Card from '../Card';
 
-import { Container, PlayerContainer, Button, ButtonContainer } from './styles';
+import { 
+  Container,
+  PlayerContainer,
+  Button,
+  ButtonContainer,
+  SearchInput,
+  FilterContainer 
+} from './styles';
 
 const Calculator = (props) => {
   const {
@@ -24,18 +30,23 @@ const Calculator = (props) => {
     next,
     previous,
     offset,
-    loading
+    loading,
+    setPokemonName,
+    resetFilter
   } = props;
   const [playerChoosing, setPlayerChoosing] = useState();
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState('');
 
   const handleClickOpen = (playerChoosing) => {
     setOpen(true);
     setPlayerChoosing(playerChoosing);
+    resetFilter();
   };
 
   const handleClose = () => {
     setOpen(false);
+    resetFilter();
   };
 
   const addSlotPlayer1 = (pokemon) => {
@@ -124,9 +135,20 @@ const Calculator = (props) => {
       >
         <DialogTitle id="max-width-dialog-title">Pokedéx</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Select one Pókemon
-          </DialogContentText>
+
+            <FilterContainer>
+              <SearchInput 
+                placeholder="Search by name"
+                onChange={(e) => setFilter(e.target.value)}
+              />
+              <Button 
+                style={{marginTop: '0px', marginLeft: '10px'}}
+                onClick={() => setPokemonName(filter)}
+              >
+                Search
+              </Button>
+            </FilterContainer>
+
           <ButtonContainer>
           <Button onClick={previous} disabled={offset === 0}>
               Previous

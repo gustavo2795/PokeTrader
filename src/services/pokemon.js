@@ -8,7 +8,7 @@ export async function getAllPokemons(offset) {
    return P.getPokemonsList(interval)
     .then(function(response) {
       return response;
-    })
+    });
 };
 
 async function getPokemon(initialUrl) {
@@ -30,4 +30,13 @@ export async function loadingPokemon(data) {
   }));
 
   return pokemons;
-}
+};
+
+// Search Pokemon by Name
+export async function searchPokemon(name) {
+  return P.getPokemonByName(name)
+    .then(function(response) {
+      console.log(response);
+      return response;
+    });
+};

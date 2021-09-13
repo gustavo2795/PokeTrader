@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import isEmpty from 'lodash.isempty';
 
 import Calculator from '../../components/Calculator';
 import History from '../../components/History';
-import { getAllPokemons, loadingPokemon } from '../../services/pokemon';
+import { getAllPokemons, loadingPokemon, searchPokemon } from '../../services/pokemon';
 import { CalcutateTradeIsFair } from '../../helpers/calculate';
 
 import {
@@ -23,6 +24,7 @@ const PokeTrader = () => {
   const [isFair, setIsFair] = useState(undefined);
   const [offset, setOffSet] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [pokemonName, setPokemonName] = useState('');
 
   const handleCalculateFair = () => {
     const fair = CalcutateTradeIsFair(player1Slots, player2Slots);
@@ -46,12 +48,24 @@ const PokeTrader = () => {
     return 'This trade is not Fair';
   };
 
-  const fetchData = async(offset) => {
+  const resetFilter = () => {
+    setPokemonName('');
+    fetchData(0);
+  };
+
+  const fetchData = async (offset) => {
     let response = await getAllPokemons(offset);
     let pokemons = await loadingPokemon(response.results);
     setLoading(false);
     setPokemonsArray(pokemons);
   };
+
+  const searchData = async () => {
+    let array = [];
+    let response = await searchPokemon(pokemonName);
+    array.push(response);
+    setPokemonsArray(array);
+  }
 
   const next = async () => {
     setOffSet(offset + 20);
@@ -65,7 +79,6 @@ const PokeTrader = () => {
 
   useEffect(() => {
     fetchData(offset);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -73,10 +86,15 @@ const PokeTrader = () => {
   }, [offset])
 
   useEffect(() => {
-    if(!isEmpty(player1Slots) && !isEmpty(player2Slots)){
+    if(pokemonName !== '') {
+      searchData();
+    }
+  }, [pokemonName])
+
+  useEffect(() => {
+    if(!isEmpty(player1Slots) && !isEmpty(player2Slots)) {
       handleCalculateFair();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player1Slots, player2Slots]);
 
   return (
@@ -86,7 +104,8 @@ const PokeTrader = () => {
       </Header>
       <DescriptionContainer>
         <p>Selects 1 or more Pókemon in both sides to check if the trade is fair.
-        The comparison attribute is the base experience.</p>
+        The comparison attribute is the base experience. If the diference is less or equal
+        than 50 is a fair trade.</p>
       </DescriptionContainer>
       <Calculator 
         pokemons={pokemonsArray}
@@ -98,6 +117,8 @@ const PokeTrader = () => {
         previous={previous}
         offset={offset}
         loading={loading}
+        setPokemonName={setPokemonName}
+        resetFilter={resetFilter}
       />
       {isFair !== undefined ? (
         <ResultContainer isFair={isFair}>
